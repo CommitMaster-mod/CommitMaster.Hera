@@ -22,7 +22,7 @@
 	
 	
   <ItemGroup>
-    <Folder Include="Controller\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

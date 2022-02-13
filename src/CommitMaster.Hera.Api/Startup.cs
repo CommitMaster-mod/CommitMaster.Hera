@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using CommitMaster.Hera.Infra.Data;
+using CommitMaster.Sirius.Api.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace CommitMaster.Sirius.Admin
+namespace CommitMaster.Hera.Api
 {
     public class Startup
     {
@@ -17,11 +18,9 @@ namespace CommitMaster.Sirius.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-  
-            
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommitMaster.Hera.Api", Version = "v1" });
-            });
+
+            services.AddJwtAuthorization(Configuration);
+            services.AddSwaggerWithSecurity();
 
             services.AddDbContext<MyAppContext>(options =>
             {
@@ -43,7 +42,7 @@ namespace CommitMaster.Sirius.Admin
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCustomAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

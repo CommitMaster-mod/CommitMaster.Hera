@@ -24,7 +24,8 @@ public class CategoryMapping : IEntityTypeConfiguration<Category>
             .HasColumnType("varchar(255)");
         
         builder.HasMany(c => c.Courses)
-            .WithOne(c => c.Category);
+            .WithOne(c => c.Category)
+            .HasForeignKey(u => u.CategoryId);
 
     }
 }

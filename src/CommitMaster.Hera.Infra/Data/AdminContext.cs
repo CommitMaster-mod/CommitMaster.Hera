@@ -1,17 +1,26 @@
 using CommitMaster.Hera.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CommitMaster.Hera.Infra.Data;
 
-public class MyAppContext : DbContext
+public class AdminContext : DbContext
 {
     public DbSet<Category> Categories { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<Module> Modules { get; set; }
 
-    public MyAppContext(DbContextOptions<MyAppContext> options) : base(options){ }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        const string strConnection = "Username=user; Password=password; Host=localhost; Port=5432; Database=commitmaster_sirius; Pooling=true;";
 
+        optionsBuilder
+            .UseNpgsql(strConnection)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging();
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyAppContext).Assembly);
@@ -26,5 +35,4 @@ public class MyAppContext : DbContext
             
         base.OnModelCreating(modelBuilder);
     }
-    
 }

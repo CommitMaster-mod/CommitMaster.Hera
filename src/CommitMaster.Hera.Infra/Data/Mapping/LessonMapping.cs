@@ -30,6 +30,7 @@ public class LessonMapping : IEntityTypeConfiguration<Lesson>
 
 
         builder.HasOne(p => p.Module)
-            .WithMany(m => m.Lessons);
+            .WithMany(m => m.Lessons)
+            .HasForeignKey(u => u.ModuleId);
     }
 }

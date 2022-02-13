@@ -1,5 +1,3 @@
-using CommitMaster.Sirius.Admin;
-
 namespace CommitMaster.Hera.Api
 {
     public class Program

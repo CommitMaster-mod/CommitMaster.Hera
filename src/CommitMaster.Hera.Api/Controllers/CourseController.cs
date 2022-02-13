@@ -1,12 +1,13 @@
 using CommitMaster.Hera.Core.Entities;
 using CommitMaster.Hera.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommitMaster.Hera.Api.Controllers;
 
 
-
+[Authorize(Roles = "AssinaturaValida")]
 [ApiController]
 [Route("api/v1/course")]
 public class CourseController : ControllerBase

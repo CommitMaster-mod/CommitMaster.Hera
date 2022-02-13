@@ -28,9 +28,11 @@ public class CourseMapping : IEntityTypeConfiguration<Course>
             .HasColumnType("varchar(50)");
         
         builder.HasOne(c => c.Category)
-            .WithMany(c => c.Courses);
+            .WithMany(c => c.Courses)
+            .HasForeignKey(u => u.CategoryId);
         
         builder.HasMany(c => c.Modules)
-            .WithOne(c => c.Course);
+            .WithOne(c => c.Course)
+            .HasForeignKey(u => u.CourseId);
     }
 }
