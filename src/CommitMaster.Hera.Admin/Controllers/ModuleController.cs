@@ -1,4 +1,4 @@
-#nullable disable
+﻿#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace CommitMaster.Hera.Admin.Controllers
         // GET: Module
         public async Task<IActionResult> Index()
         {
-            var adminContext = _context.Modules.Include(c => c.Course);
+            var adminContext = _context.Modules.Include(@c => @c.Course);
             return View(await adminContext.ToListAsync());
         }
 
@@ -36,7 +36,7 @@ namespace CommitMaster.Hera.Admin.Controllers
             }
 
             var @module = await _context.Modules
-                .Include(c => c.Course)
+                .Include(@c => @c.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@module == null)
             {
@@ -133,7 +133,7 @@ namespace CommitMaster.Hera.Admin.Controllers
             }
 
             var @module = await _context.Modules
-                .Include(c => c.Course)
+                .Include(@c => @c.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@module == null)
             {

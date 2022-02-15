@@ -9,5 +9,10 @@ namespace CommitMaster.Hera.Core.Entities
         
         //Ef Core
         public IEnumerable<Course> Courses { get; set; }
+
+        public Category()
+        {
+            Courses = new List<Course>();
+        }
     }
 }

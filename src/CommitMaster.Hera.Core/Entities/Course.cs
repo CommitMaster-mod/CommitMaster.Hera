@@ -15,6 +15,14 @@ namespace CommitMaster.Hera.Core.Entities
         
         //Ef core
         public IEnumerable<Module> Modules { get; set; }
+
+
+        public Course()
+        {
+            Modules = new List<Module>();
+        }
+
+    
     }
 
 }

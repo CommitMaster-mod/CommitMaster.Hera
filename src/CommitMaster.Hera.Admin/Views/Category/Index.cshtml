@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CommitMaster.Hera.Core.Entities.Course>
+﻿@model IEnumerable<CommitMaster.Hera.Core.Entities.Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,9 +19,6 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th></th>
@@ -35,9 +32,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)

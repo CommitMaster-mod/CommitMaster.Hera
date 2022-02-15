@@ -11,23 +11,22 @@ using CommitMaster.Hera.Infra.Data;
 
 namespace CommitMaster.Hera.Admin.Controllers
 {
-    public class CourseController : Controller
+    public class CategoryController : Controller
     {
         private readonly AdminContext _context;
 
-        public CourseController(AdminContext context)
+        public CategoryController(AdminContext context)
         {
             _context = context;
         }
 
-        // GET: Course
+        // GET: Category
         public async Task<IActionResult> Index()
         {
-            var adminContext = _context.Courses.Include(c => c.Category);
-            return View(await adminContext.ToListAsync());
+            return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: Course/Details/5
+        // GET: Category/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -35,42 +34,40 @@ namespace CommitMaster.Hera.Admin.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(category);
         }
 
-        // GET: Course/Create
+        // GET: Category/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
-        // POST: Course/Create
+        // POST: Category/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,Id,CreatedAt,Cover.ImgUrl")] Course course)
+        public async Task<IActionResult> Create([Bind("Name,Description,Id,CreatedAt")] Category category)
         {
-            
-            course.Id = Guid.NewGuid();
-            _context.Add(course);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", course.CategoryId);
-            return View(course);
+            if (ModelState.IsValid)
+            {
+                category.Id = Guid.NewGuid();
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
         }
 
-        // GET: Course/Edit/5
+        // GET: Category/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -78,23 +75,22 @@ namespace CommitMaster.Hera.Admin.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", course.CategoryId);
-            return View(course);
+            return View(category);
         }
 
-        // POST: Course/Edit/5
+        // POST: Category/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,CategoryId,Id,CreatedAt")] Course course)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,Id,CreatedAt")] Category category)
         {
-            if (id != course.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -103,12 +99,12 @@ namespace CommitMaster.Hera.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(course);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +115,10 @@ namespace CommitMaster.Hera.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", course.CategoryId);
-            return View(course);
+            return View(category);
         }
 
-        // GET: Course/Delete/5
+        // GET: Category/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -131,31 +126,30 @@ namespace CommitMaster.Hera.Admin.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(category);
         }
 
-        // POST: Course/Delete/5
+        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            _context.Courses.Remove(course);
+            var category = await _context.Categories.FindAsync(id);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseExists(Guid id)
+        private bool CategoryExists(Guid id)
         {
-            return _context.Courses.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }
